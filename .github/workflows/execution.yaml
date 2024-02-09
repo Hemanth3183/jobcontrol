@@ -1,16 +1,19 @@
-name: Website Deployment
+name: Job Execution Control
 on:
   push:
-    branches:
+    branches: 
       - main
 jobs:
-  lint:
+  Install:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Install Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Cache dependencies
-        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -19,57 +22,59 @@ jobs:
         run: npm ci
       - name: Lint code
         run: npm run lint
-  test:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
-        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Install dependencies
         run: npm ci
-      - name: Test code
+      - name: Run tests
         run: npm run test
-      - name: Upload test report
-        uses: actions/upload-artifact@v3
+      - name: Upload Test artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test.json
-  build:
-    needs: test
+  Build:
+    needs: Test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
-        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Nodejs
+        uses: actions/setup-node@v4
       - name: Install dependencies
         run: npm ci
       - name: Build website
-        id: build-website
         run: npm run build
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: dist-files
           path: dist
-  deploy:
-    needs: build
+  Deploy:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Get build artifacts
-        uses: actions/download-artifact@v3
+      - name: Get Build Artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist-files
-      - name: Output contents
+      - name: List Artifacts
         run: ls
-      - name: Deploy
-        run: echo "Deploying..."
+      
