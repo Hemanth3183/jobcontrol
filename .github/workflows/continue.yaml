@@ -1,8 +1,8 @@
 name: Continue-on-error function
-on:
-  push:
-    branches: 
-      - main
+on: [workflow_dispatch]
+  # push:
+  #   branches: 
+  #     - main
 jobs:
   Install:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
         id: cache-hit
         uses: actions/cache@v3
         with:
-          path: node_modues
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Nodejs
         uses: actions/setup-node@v4
