@@ -79,4 +79,12 @@ jobs:
           name: dist-files
       - name: List Artifacts
         run: ls
+  Report:
+    if: failure() 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report job status
+        run: |
+          echo "Something went wrong"
+          echo " ${{ github }}"
       
