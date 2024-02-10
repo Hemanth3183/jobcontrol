@@ -87,5 +87,5 @@ jobs:
       - name: Report job status
         run: |
           echo "Something went wrong"
-          echo "${{ toJSON(github) }}"
+          echo "${{ toJSON(github.sha) }}"
       
