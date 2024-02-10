@@ -3,8 +3,8 @@ on:
   workflow_call:    
     inputs:
       artifact-name:
-        required: false
-        default: dist-files
+        required: true
+        default: dist
         type: string                                                                                                   
 jobs:
   deploy:
