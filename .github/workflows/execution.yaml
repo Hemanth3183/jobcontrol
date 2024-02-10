@@ -80,6 +80,7 @@ jobs:
       - name: List Artifacts
         run: ls
   Report:
+    needs: [Install, Deploy]
     if: failure() 
     runs-on: ubuntu-latest
     steps:
