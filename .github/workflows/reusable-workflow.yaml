@@ -2,9 +2,9 @@ name: Reusable workflow example
 on: 
   workflow_call:    
     inputs:
-      artifact-name:
+      dist-files:
         required: true
-        default: dist
+        default: dist-files
         type: string                                                                                                    
 jobs:
   deploy:
@@ -13,6 +13,6 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: ${{inputs.artifact-name}}
+          name: ${{inputs.dist-files}}
       - name: List files
         run: ls
