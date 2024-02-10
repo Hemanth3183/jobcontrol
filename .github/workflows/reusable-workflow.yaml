@@ -5,9 +5,18 @@ on:
       artifact-name:
         required: true
         default: dist
-        type: string                                                                                                   
+        type: string      
+    # secrets:
+    #   some-secret:
+    #     required: false
+    #     description: Dummy secret
+    outputs:
+      result:
+        value: ${{ jobs.deploy.outputs.outcome }}
 jobs:
   deploy:
+    outputs: 
+      outcome: ${{ steps.return-code.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
@@ -16,3 +25,6 @@ jobs:
           name: ${{inputs.artifact-name}}
       - name: List files
         run: ls
+      - name: RC of this job
+        id: return-code
+        run: echo "step-result=success" >> $GITHUB_OUTPUT

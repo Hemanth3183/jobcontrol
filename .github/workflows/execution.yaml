@@ -82,6 +82,14 @@ jobs:
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       artifact-name: dist-files
+    # secrets: 
+    #   some-secret: ${{secrets.user}}
+  Print result:
+    needs: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print result of reusable workflow
+        run: echo "${{ needs.Deploy.outputs.result }}"
   Report:
     needs: [Install, Deploy]
     if: failure() 
