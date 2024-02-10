@@ -84,7 +84,7 @@ jobs:
       artifact-name: dist-files
     # secrets: 
     #   some-secret: ${{secrets.user}}
-  Print result:
+  Print-result:
     needs: Deploy
     runs-on: ubuntu-latest
     steps:
