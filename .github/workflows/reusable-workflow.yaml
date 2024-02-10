@@ -1,0 +1,9 @@
+name: Reusable workflow example
+on: workflow_call                                 # Value to define a reusable workflow.
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |
+          echo "Deploying & Uploading..."

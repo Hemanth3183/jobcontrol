@@ -79,14 +79,7 @@ jobs:
           path: dist
   Deploy:
     needs: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-files
-      - name: List Artifacts
-        run: ls
+    uses: ./.github/workflows/reusable-workflow.yaml
   Report:
     needs: [Install, Deploy]
     if: failure() 
